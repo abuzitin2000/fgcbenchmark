@@ -20,9 +20,9 @@ class mainMenu extends Phaser.Scene {
         this.load.image("mapGunShopHigh", "src/assets/GunShopHighlight.png");
         this.load.image("mapBusStop", "src/assets/Bus Stop.png");
         this.load.image("mapSun", "src/assets/Sun.png");
-        this.load.image("mapCloud1", "src/assets/cloud1.png");
-        this.load.image("mapCloud2", "src/assets/cloud2.png");
-        this.load.image("mapCloud3", "src/assets/cloud3.png");
+        this.load.image("mapCloud1", "src/assets/cloudfirst.png");
+        this.load.image("mapCloud2", "src/assets/cloudsecond.png");
+        this.load.image("mapCloud3", "src/assets/cloudthird.png");
         this.load.image("mapForest", "src/assets/MapForest.png");
     }
 
