@@ -13,7 +13,7 @@ var config = {
     pixelArt: false,
     input: {
         gamepad: true
-    },
+    }
 };
 
 var game = new Phaser.Game(config);
