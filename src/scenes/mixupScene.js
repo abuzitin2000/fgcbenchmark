@@ -35,7 +35,7 @@ class mixupScene extends Phaser.Scene {
         this.anims.create({
             key: 'KenStanding',
             frames: this.anims.generateFrameNumbers('KenStanding', { start: 0, end: 9, first: 0 }),
-            frameRate: 12,
+            frameRate: 14,
             repeat: -1
         });
 
@@ -44,7 +44,7 @@ class mixupScene extends Phaser.Scene {
         this.anims.create({
             key: 'RyuStanding',
             frames: this.anims.generateFrameNumbers('RyuStanding', { start: 0, end: 9, first: 0 }),
-            frameRate: 12,
+            frameRate: 14,
             repeat: -1
         });
 
@@ -103,8 +103,8 @@ class mixupScene extends Phaser.Scene {
             }
         
             if (this.pad1.axes.length) {
-                this.inputHor = gamepad.axes[0].getValue();
-                this.inputVer = gamepad.axes[1].getValue();
+                this.inputHor = this.pad1.axes[0].getValue();
+                this.inputVer = this.pad1.axes[1].getValue();
             }
         }
 
