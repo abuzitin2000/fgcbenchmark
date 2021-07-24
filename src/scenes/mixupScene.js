@@ -35,7 +35,7 @@ class mixupScene extends Phaser.Scene {
         this.anims.create({
             key: 'KenStanding',
             frames: this.anims.generateFrameNumbers('KenStanding', { start: 0, end: 9, first: 0 }),
-            frameRate: 24,
+            frameRate: 12,
             repeat: -1
         });
 
@@ -44,7 +44,7 @@ class mixupScene extends Phaser.Scene {
         this.anims.create({
             key: 'RyuStanding',
             frames: this.anims.generateFrameNumbers('RyuStanding', { start: 0, end: 9, first: 0 }),
-            frameRate: 24,
+            frameRate: 12,
             repeat: -1
         });
 
@@ -54,6 +54,8 @@ class mixupScene extends Phaser.Scene {
         this.fgBall = this.add.sprite(900, 225, "fightStickBall").setScale(0.75);
 
         // Inputs
+        this.cursors = this.input.keyboard.createCursorKeys();
+
         this.moveUp = this.input.keyboard.addKey("W");
         this.moveDown = this.input.keyboard.addKey("S");
         this.moveLeft = this.input.keyboard.addKey("A");
@@ -66,22 +68,18 @@ class mixupScene extends Phaser.Scene {
 
     update() {
         // Keyboard
-        if (this.moveUp.isDown) {
+        if (this.cursors.up.isDown || this.moveUp.isDown) {
             this.inputVer = -1;
-            this.pad1 = null;
-        } else if (this.moveDown.isDown) {
+        } else if (this.cursors.down.isDown || this.moveDown.isDown) {
             this.inputVer = 1;
-            this.pad1 = null;
         } else {
             this.inputVer = 0;
         }
 
-        if (this.moveLeft.isDown) {
+        if (this.cursors.left.isDown || this.moveLeft.isDown) {
             this.inputHor = -1;
-            this.pad1 = null;
-        } else if (this.moveRight.isDown) {
+        } else if (this.cursors.right.isDown || this.moveRight.isDown) {
             this.inputHor = 1;
-            this.pad1 = null;
         } else {
             this.inputHor = 0;
         }
@@ -102,6 +100,11 @@ class mixupScene extends Phaser.Scene {
                 this.inputHor = 1;
             } else {
                 this.inputHor = 0;
+            }
+        
+            if (this.pad1.axes.length) {
+                this.inputHor = gamepad.axes[0].getValue();
+                this.inputVer = gamepad.axes[1].getValue();
             }
         }
 
