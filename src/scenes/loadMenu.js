@@ -15,12 +15,12 @@ class loadMenu extends Phaser.Scene {
         })
 
         this.load.on("progress", (percent) => {
-            progressbar.fillRect(150, 400, percent * 500, 25);
+            progressbar.fillRect(150, 500, percent * 700, 25);
         });
     }
 
     create() {
-        this.add.image(400, 200, "logo");
+        this.add.image(this.cameras.main.width / 2, 200, "logo");
     }
 
     update() {
