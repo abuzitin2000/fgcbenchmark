@@ -2,7 +2,7 @@ var config = {
     type: Phaser.AUTO,
     backgroundColor: 0xE6E8F4,
     fps: {
-        target: 60
+        target: 30
     },
     scale: {
         mode: Phaser.Scale.FIT,

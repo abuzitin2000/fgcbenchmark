@@ -980,6 +980,7 @@ class mixupScene extends Phaser.Scene {
         this.fgButtonBack.on("pointerup", (pointer) => {
             this.touchButton = false;
         });
+        this.input.addPointer(1);
 
         // Inputs
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -1048,7 +1049,7 @@ class mixupScene extends Phaser.Scene {
 
         // Touch
         if (this.touchBall) {
-            this.fgBall.setPosition(this.input.mousePointer.position.x, this.input.mousePointer.position.y);
+            this.fgBall.setPosition(this.input.pointer1.x, this.input.pointer1.y);
             if (this.fgBall.x > 1175 + 60) {
                 this.fgBall.setX(1175 + 60);
             }
@@ -1075,7 +1076,7 @@ class mixupScene extends Phaser.Scene {
                 this.inputVer = -1;
             }
         }
-
+console.log(this.input.pointer1.isDown, this.input.pointer1.y)
         // Block
         let crouching = false;
         let direction = "middle";
