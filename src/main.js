@@ -2,12 +2,12 @@ var config = {
     type: Phaser.AUTO,
     backgroundColor: 0xE6E8F4,
     fps: {
-        target: 30
+        target: 60
     },
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1024,
+        width: 1365,
         height: 768
     },
     scene: [

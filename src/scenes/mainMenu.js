@@ -14,7 +14,7 @@ class mainMenu extends Phaser.Scene {
 
     create() {
         // Logo
-        this.logoText = this.add.text(this.cameras.main.width / 2, 75, "The FGC Benchmark", {
+        this.logoText = this.add.text(this.cameras.main.width / 2, 85, "The FGC Benchmark", {
             font: "100px Impact",
             color: secondaryColor,
             align: "center",
@@ -29,6 +29,29 @@ class mainMenu extends Phaser.Scene {
             strokeThickness: 5,
             stroke: primaryColor
         }).setOrigin(0.5, 0);
+
+        // Top Bar
+        this.topOptions = this.add.text(1100, 15, "SETTINGS", {
+            font: "58px Impact",
+            color: secondaryColor,
+            align: "right",
+            strokeThickness: 8,
+            stroke: tetriaryColor
+        });
+
+        this.topOptions.setInteractive({ useHandCursor: true });
+
+        this.topOptions.on("pointerdown", (pointer) => {
+            this.scene.start("main");
+        });
+
+        this.topOptions.on("pointerover", (pointer) => {
+            this.topOptions.setStroke(tetriaryColor, 10);
+        });
+
+        this.topOptions.on("pointerout", (pointer) => {
+            this.topOptions.setStroke(tetriaryColor, 8);
+        });
 
         // Mixup Button
         this.mixupButton = this.add.image(200, 400, "mixupButton");
@@ -85,8 +108,8 @@ class mainMenu extends Phaser.Scene {
         }
 
         button.highlights[0].fillRect(button.sprite.getTopLeft().x, button.sprite.getTopLeft().y, button.sprite.width + this.borderSize, -this.borderSize);
-        button.highlights[1].fillRect(button.sprite.getBottomLeft().x, button.sprite.getBottomLeft().y, button.sprite.width, this.borderSize);
-        button.highlights[2].fillRect(button.sprite.getTopLeft().x, button.sprite.getTopLeft().y, this.borderSize, button.sprite.height + this.borderSize);
+        button.highlights[1].fillRect(button.sprite.getBottomRight().x, button.sprite.getBottomRight().y, -button.sprite.width - this.borderSize, this.borderSize);
+        button.highlights[2].fillRect(button.sprite.getBottomLeft().x, button.sprite.getBottomLeft().y, -this.borderSize, -button.sprite.height - this.borderSize);
         button.highlights[3].fillRect(button.sprite.getTopRight().x, button.sprite.getTopRight().y, this.borderSize, button.sprite.height + this.borderSize);
     }
 }
