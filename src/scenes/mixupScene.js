@@ -31,7 +31,7 @@ class mixupScene extends Phaser.Scene {
         this.inputHor = 0;
         this.inputVer = 0;
         this.pad1;
-        this.interval = 2;
+        this.interval = 1.5;
         this.curInterval = 0;
         this.stunned = false;
         this.start = false;
@@ -49,7 +49,7 @@ class mixupScene extends Phaser.Scene {
         this.manuelBLock = false;
         this.bgOn = true;
         this.highStartup = 18;
-        this.lowStartup = 18;
+        this.lowStartup = 12;
         this.rep = 5;
         this.track = "high";
         this.lastTrack = "";
@@ -470,7 +470,7 @@ class mixupScene extends Phaser.Scene {
                 if (this.highStartup == 3) {
                     this.highStartupDecreaseText.setStroke(primaryColor, 4);
                 }
-                this.ryuHigh.frameRate = (this.ryuHigh.getTotalFrames() * 0.4) * (60 / this.highStartup);
+                this.ryuHigh.frameRate = (this.ryuHigh.getTotalFrames() * 0.5) * (60 / this.highStartup);
             }
         });
 
@@ -492,7 +492,7 @@ class mixupScene extends Phaser.Scene {
             this.highStartup++;
             this.highStartupText.text = this.highStartup + " frames";
             this.highStartupDecreaseText.setStroke(tetriaryColor, 4);
-            this.ryuHigh.frameRate = (this.ryuHigh.getTotalFrames() * 0.4) * (60 / this.highStartup);
+            this.ryuHigh.frameRate = (this.ryuHigh.getTotalFrames() * 0.5) * (60 / this.highStartup);
         });
 
         this.highStartupIncreaseText.on("pointerover", (pointer) => {
@@ -512,7 +512,7 @@ class mixupScene extends Phaser.Scene {
             stroke: primaryColor
         }).setDepth(1);
 
-        this.lowStartupText = this.add.text(952, 587, "18 frames", {
+        this.lowStartupText = this.add.text(952, 587, "12 frames", {
             font: "28px Impact",
             color: secondaryColor,
             align: "right",
@@ -545,7 +545,7 @@ class mixupScene extends Phaser.Scene {
                 if (this.lowStartup == 3) {
                     this.lowStartupDecreaseText.setStroke(primaryColor, 4);
                 }
-                this.ryuLow.frameRate = (this.ryuLow.getTotalFrames() * 0.4) * (60 / (this.lowStartup - 3));
+                this.ryuLow.frameRate = (this.ryuLow.getTotalFrames() * 0.5) * (60 / this.lowStartup);
             }
         });
 
@@ -567,7 +567,7 @@ class mixupScene extends Phaser.Scene {
             this.lowStartup++;
             this.lowStartupText.text = this.lowStartup + " frames";
             this.lowStartupDecreaseText.setStroke(tetriaryColor, 4);
-            this.ryuLow.frameRate = (this.ryuLow.getTotalFrames() * 0.4) * (60 / (this.lowStartup - 3));
+            this.ryuLow.frameRate = (this.ryuLow.getTotalFrames() * 0.5) * (60 / this.lowStartup);
         });
 
         this.lowStartupIncreaseText.on("pointerover", (pointer) => {
@@ -587,7 +587,7 @@ class mixupScene extends Phaser.Scene {
             stroke: primaryColor
         }).setDepth(1);
 
-        this.intervalText = this.add.text(918, 632, "2.0 seconds", {
+        this.intervalText = this.add.text(918, 632, "1.5 seconds", {
             font: "28px Impact",
             color: secondaryColor,
             align: "right",
@@ -887,7 +887,7 @@ class mixupScene extends Phaser.Scene {
         this.anims.create({
             key: 'KenBlockLow',
             frames: this.anims.generateFrameNumbers('KenBlockLow', { start: 0, end: 4, first: 0 }),
-            duration: 350,
+            duration: 400,
             repeat: 0
         });
 
@@ -947,7 +947,7 @@ class mixupScene extends Phaser.Scene {
             duration: 700,
             repeat: 0
         });
-        this.ryuLow.frameRate = (this.ryuLow.getTotalFrames() * 0.4) * (60 / (this.lowStartup - 3));
+        this.ryuLow.frameRate = (this.ryuLow.getTotalFrames() * 0.5) * (60 / this.lowStartup);
 
         this.ryuHigh = this.anims.create({
             key: 'RyuHigh',
@@ -955,7 +955,7 @@ class mixupScene extends Phaser.Scene {
             duration: 770,
             repeat: 0
         });
-        this.ryuHigh.frameRate = (this.ryuHigh.getTotalFrames() * 0.4) * (60 / this.highStartup);
+        this.ryuHigh.frameRate = (this.ryuHigh.getTotalFrames() * 0.5) * (60 / this.highStartup);
 
         this.ken.play("KenStanding");
         this.ryu.play("RyuStanding");
@@ -1049,7 +1049,12 @@ class mixupScene extends Phaser.Scene {
 
         // Touch
         if (this.touchBall) {
-            this.fgBall.setPosition(this.input.pointer1.x, this.input.pointer1.y);
+            if (this.sys.game.device.os.desktop) {
+                this.fgBall.setPosition(this.input.mousePointer.x, this.input.mousePointer.y);
+            } else {
+                this.fgBall.setPosition(this.input.pointer1.x, this.input.pointer1.y);
+            }
+            
             if (this.fgBall.x > 1175 + 60) {
                 this.fgBall.setX(1175 + 60);
             }
@@ -1063,20 +1068,20 @@ class mixupScene extends Phaser.Scene {
                 this.fgBall.setY(225 - 60);
             }
 
-            if (this.fgBall.x > 1175 + 30) {
+            if (this.fgBall.x > 1175 + 20) {
                 this.inputHor = 1;
             }
-            if (this.fgBall.x < 1175 - 30) {
+            if (this.fgBall.x < 1175 - 20) {
                 this.inputHor = -1;
             }
-            if (this.fgBall.y > 225 + 30) {
+            if (this.fgBall.y > 225 + 20) {
                 this.inputVer = 1;
             }
-            if (this.fgBall.y < 225 - 30) {
+            if (this.fgBall.y < 225 - 20) {
                 this.inputVer = -1;
             }
         }
-console.log(this.input.pointer1.isDown, this.input.pointer1.y)
+
         // Block
         let crouching = false;
         let direction = "middle";
@@ -1191,7 +1196,9 @@ console.log(this.input.pointer1.isDown, this.input.pointer1.y)
                 } else {
                     this.ryu.setOrigin(0.3, 1);
                 }
-
+                this.reactionStart = time;
+                this.reactionEnd = time;
+                this.reactionCalc = 1;
             }
         }
 
