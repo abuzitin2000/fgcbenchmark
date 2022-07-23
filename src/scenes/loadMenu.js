@@ -21,6 +21,11 @@ class loadMenu extends Phaser.Scene {
 
     create() {
         this.add.image(this.cameras.main.width / 2, 200, "logo");
+
+        // Change to Mobile Font
+        if (!this.sys.game.device.os.desktop) {
+            defaultFont = mobileFont;
+        }
     }
 
     update() {

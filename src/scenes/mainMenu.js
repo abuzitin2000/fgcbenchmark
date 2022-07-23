@@ -10,29 +10,30 @@ class mainMenu extends Phaser.Scene {
 
     preload() {
         this.load.image("mixupButton", "src/assets/mixupButton.png");
+        this.load.image("motionButton", "src/assets/motionButton.png");
     }
 
     create() {
         // Logo
-        this.logoText = this.add.text(this.cameras.main.width / 2, 85, "The FGC Benchmark", {
-            font: "100px Impact",
+        this.logoText = this.add.text(this.cameras.main.width / 2, 125, "The FGC Benchmark", {
+            font: "132px " + defaultFont,
             color: secondaryColor,
             align: "center",
-            strokeThickness: 10,
+            strokeThickness: 12,
             stroke: primaryColor
         }).setOrigin(0.5, 0);
 
-        this.logoInfoText = this.add.text(this.cameras.main.width / 2, 200, "Test and improve your fighting game skills!", {
-            font: "36px Impact",
+        this.logoInfoText = this.add.text(this.cameras.main.width / 2, 265, "Test and improve your fighting game skills!", {
+            font: "48px " + defaultFont,
             color: secondaryColor,
             align: "center",
-            strokeThickness: 5,
+            strokeThickness: 8,
             stroke: primaryColor
         }).setOrigin(0.5, 0);
 
         // Top Bar
-        this.topOptions = this.add.text(1100, 15, "SETTINGS", {
-            font: "58px Impact",
+        this.topOptions = this.add.text(1600, 25, "SETTINGS", {
+            font: "72px " + defaultFont,
             color: secondaryColor,
             align: "right",
             strokeThickness: 8,
@@ -42,7 +43,7 @@ class mainMenu extends Phaser.Scene {
         this.topOptions.setInteractive({ useHandCursor: true });
 
         this.topOptions.on("pointerdown", (pointer) => {
-            this.scene.start("main");
+            this.scene.start("settings", { lastScene: this.scene.key });
         });
 
         this.topOptions.on("pointerover", (pointer) => {
@@ -54,7 +55,7 @@ class mainMenu extends Phaser.Scene {
         });
 
         // Mixup Button
-        this.mixupButton = this.add.image(200, 400, "mixupButton");
+        this.mixupButton = this.add.image(200, 500, "mixupButton");
         this.mixupButton.setInteractive({useHandCursor: true});
         this.buttons.push({
             sprite: this.mixupButton,
@@ -62,8 +63,25 @@ class mainMenu extends Phaser.Scene {
             highlights: []
         });
 
-        this.mixupButtonText = this.add.text(200, 480, "Mix-up training", {
-            font: "28px Impact",
+        this.mixupButtonText = this.add.text(200, 585, "Mix-up training", {
+            font: "28px " + defaultFont,
+            color: secondaryColor,
+            align: "center",
+            strokeThickness: 5,
+            stroke: primaryColor
+        }).setOrigin(0.5, 0);
+
+        // Motion Button
+        this.motionButton = this.add.image(500, 500, "motionButton");
+        this.motionButton.setInteractive({useHandCursor: true});
+        this.buttons.push({
+            sprite: this.motionButton,
+            page: "motion",
+            highlights: []
+        });
+
+        this.motionButtonText = this.add.text(500, 585, "Motion training", {
+            font: "28px " + defaultFont,
             color: secondaryColor,
             align: "center",
             strokeThickness: 5,
@@ -72,18 +90,18 @@ class mainMenu extends Phaser.Scene {
 
         // Setup All Buttons
         this.buttons.forEach(button => {
-            this.fillHighlight(button, 0xE6E8F4);
+            this.fillHighlight(button, parseInt(primaryColor.replace(/^#/, ''), 16));
             
             button.sprite.on("pointerdown", (pointer) => {
                 this.scene.start(button.page);
             });
 
             button.sprite.on("pointerover", (pointer) => {
-                this.fillHighlight(button, 0x000000);
+                this.fillHighlight(button, parseInt(tetriaryColor.replace(/^#/, ''), 16));
             });
     
             button.sprite.on("pointerout", (pointer) => {
-                this.fillHighlight(button, 0xE6E8F4);
+                this.fillHighlight(button, parseInt(primaryColor.replace(/^#/, ''), 16));
             });
         });
     }

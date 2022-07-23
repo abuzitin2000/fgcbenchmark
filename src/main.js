@@ -1,17 +1,17 @@
 var config = {
     type: Phaser.AUTO,
-    backgroundColor: 0xE6E8F4,
+    "transparent": true,
     fps: {
         target: 30
     },
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1365,
-        height: 768
+        width: 1920,
+        height: 1080
     },
     scene: [
-        loadMenu, mainMenu, mixupScene
+        loadMenu, mainMenu, settingsMenu, mixupScene, motionScene
     ],
     pixelArt: false,
     input: {
@@ -22,6 +22,9 @@ var config = {
 var game = new Phaser.Game(config);
 
 // Theme
-const primaryColor = "#2B87D1";
-const secondaryColor = "#FFFFFF";
-const tetriaryColor = "#000000";
+var theme = "light";
+var primaryColor = "#2B87D1";
+var secondaryColor = "#FFFFFF";
+var tetriaryColor = "#000000";
+var defaultFont = "Impact";
+var mobileFont = "sans-serif";

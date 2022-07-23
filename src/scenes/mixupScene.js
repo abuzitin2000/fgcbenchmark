@@ -53,18 +53,20 @@ class mixupScene extends Phaser.Scene {
         this.rep = 5;
         this.track = "high";
         this.lastTrack = "";
+        this.mixupType = "HL";
+        this.reset = true;
 
         // Top Bar
         this.topText = this.add.text(this.cameras.main.width / 2, 25, "Mixup Training", {
-            font: "36px Impact",
+            font: "54px " + defaultFont,
             color: secondaryColor,
             align: "center",
-            strokeThickness: 10,
+            strokeThickness: 8,
             stroke: primaryColor
         }).setOrigin(0.5, 0);
 
-        this.topBack = this.add.text(35, 15, "BACK", {
-            font: "58px Impact",
+        this.topBack = this.add.text(35, 25, "BACK", {
+            font: "72px " + defaultFont,
             color: secondaryColor,
             align: "left",
             strokeThickness: 8,
@@ -85,8 +87,8 @@ class mixupScene extends Phaser.Scene {
             this.topBack.setStroke(tetriaryColor, 8);
         });
 
-        this.topOptions = this.add.text(1100, 15, "SETTINGS", {
-            font: "58px Impact",
+        this.topOptions = this.add.text(1600, 25, "SETTINGS", {
+            font: "72px " + defaultFont,
             color: secondaryColor,
             align: "right",
             strokeThickness: 8,
@@ -96,7 +98,7 @@ class mixupScene extends Phaser.Scene {
         this.topOptions.setInteractive({ useHandCursor: true });
 
         this.topOptions.on("pointerdown", (pointer) => {
-            this.scene.start("main");
+            this.scene.start("settings", { lastScene: this.scene.key });
         });
 
         this.topOptions.on("pointerover", (pointer) => {
@@ -108,8 +110,8 @@ class mixupScene extends Phaser.Scene {
         });
 
         // Start
-        this.startText = this.add.text(660, 130, "START", {
-            font: "42px Impact",
+        this.startText = this.add.text(975, 140, "START", {
+            font: "64px " + defaultFont,
             color: secondaryColor,
             align: "right",
             strokeThickness: 6,
@@ -128,9 +130,12 @@ class mixupScene extends Phaser.Scene {
                 this.results = [];
                 this.curCount = 0;
                 this.reactionStart = 0;
-                this.times = 0;
-                this.average = 0;
-                this.success = 0;
+                
+                if (this.reset) {
+                    this.times = 0;
+                    this.average = 0;
+                    this.success = 0;
+                }
             }
         });
 
@@ -143,24 +148,24 @@ class mixupScene extends Phaser.Scene {
         });
 
         // Texts
-        this.stateText = this.add.text(35, 590, "State: ", {
-            font: "36px Impact",
+        this.stateText = this.add.text(35, 825, "State: ", {
+            font: "52px " + defaultFont,
             color: secondaryColor,
             align: "center",
             strokeThickness: 6,
             stroke: primaryColor
         });
 
-        this.averageText = this.add.text(35, 640, "Average: ", {
-            font: "36px Impact",
+        this.averageText = this.add.text(35, 895, "Average: ", {
+            font: "52px " + defaultFont,
             color: secondaryColor,
             align: "center",
             strokeThickness: 6,
             stroke: primaryColor
         });
 
-        this.successText = this.add.text(35, 690, "Success Rate: ", {
-            font: "36px Impact",
+        this.successText = this.add.text(35, 965, "Success Rate: ", {
+            font: "52px " + defaultFont,
             color: secondaryColor,
             align: "center",
             strokeThickness: 6,
@@ -168,8 +173,8 @@ class mixupScene extends Phaser.Scene {
         });
 
         // Sub Options
-        this.add.text(1115, 365, "OPTIONS", {
-            font: "58px Impact",
+        this.add.text(1585, 520, "OPTIONS", {
+            font: "72px " + defaultFont,
             color: secondaryColor,
             align: "right",
             strokeThickness: 8,
@@ -177,60 +182,60 @@ class mixupScene extends Phaser.Scene {
         }).setDepth(1).setOrigin(1, 0);
 
         // Option Game
-        this.add.text(700, 450, "Select Game: ", {
-            font: "32px Impact",
+        this.add.text(1020, 615, "Select Game: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.gameSFText = this.add.text(885, 450, "SF", {
-            font: "32px Impact",
+        this.gameSFText = this.add.text(1265, 615, "SF", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.gameGGText = this.add.text(930, 450, "GG", {
-            font: "32px Impact",
+        this.gameGGText = this.add.text(1315, 615, "GG", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: "#888888"
         }).setDepth(1);
 
-        this.gameGGText = this.add.text(980, 450, "MK", {
-            font: "32px Impact",
+        this.gameGGText = this.add.text(1375, 615, "MK", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: "#888888"
         }).setDepth(1);
 
         // Option Side Switch
-        this.add.text(1065, 495, "P1 Side: ", {
-            font: "32px Impact",
+        this.add.text(1020, 745, "Player Side: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.mirrorTrueText = this.add.text(1240, 495, "RIGHT", {
-            font: "32px Impact",
+        this.mirrorTrueText = this.add.text(1325, 745, "Right", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: tetriaryColor
         }).setDepth(1);
 
-        this.mirrorFalseText = this.add.text(1175, 495, "LEFT", {
-            font: "32px Impact",
+        this.mirrorFalseText = this.add.text(1245, 745, "Left", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
@@ -239,8 +244,8 @@ class mixupScene extends Phaser.Scene {
         this.mirrorTrueText.on("pointerdown", (pointer) => {
             if (!this.mirror) {
                 this.mirror = true;
-                this.mirrorTrueText.setStroke(primaryColor, 4);
-                this.mirrorFalseText.setStroke(tetriaryColor, 4);
+                this.mirrorTrueText.setStroke(primaryColor, 6);
+                this.mirrorFalseText.setStroke(tetriaryColor, 6);
                 let tempx = this.ken.x;
                 this.ken.x = this.ryu.x;
                 this.ryu.x = tempx;
@@ -251,13 +256,13 @@ class mixupScene extends Phaser.Scene {
 
         this.mirrorTrueText.on("pointerover", (pointer) => {
             if (!this.mirror) {
-                this.mirrorTrueText.setStroke(tetriaryColor, 5);
+                this.mirrorTrueText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.mirrorTrueText.on("pointerout", (pointer) => {
             if (!this.mirror) {
-                this.mirrorTrueText.setStroke(tetriaryColor, 4);
+                this.mirrorTrueText.setStroke(tetriaryColor, 6);
             }
         });
 
@@ -266,8 +271,8 @@ class mixupScene extends Phaser.Scene {
         this.mirrorFalseText.on("pointerdown", (pointer) => {
             if (this.mirror) {
                 this.mirror = false;
-                this.mirrorFalseText.setStroke(primaryColor, 4);
-                this.mirrorTrueText.setStroke(tetriaryColor, 4);
+                this.mirrorFalseText.setStroke(primaryColor, 6);
+                this.mirrorTrueText.setStroke(tetriaryColor, 6);
                 let tempx = this.ken.x;
                 this.ken.x = this.ryu.x;
                 this.ryu.x = tempx;
@@ -278,38 +283,38 @@ class mixupScene extends Phaser.Scene {
 
         this.mirrorFalseText.on("pointerover", (pointer) => {
             if (this.mirror) {
-                this.mirrorFalseText.setStroke(tetriaryColor, 5);
+                this.mirrorFalseText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.mirrorFalseText.on("pointerout", (pointer) => {
             if (this.mirror) {
-                this.mirrorFalseText.setStroke(tetriaryColor, 4);
+                this.mirrorFalseText.setStroke(tetriaryColor, 6);
             }
         });
 
         // Option Block Type
-        this.add.text(700, 495, "Block Type: ", {
-            font: "32px Impact",
+        this.add.text(1020, 680, "Block Type: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.blockButtonText = this.add.text(860, 495, "BUTTON", {
-            font: "32px Impact",
+        this.blockButtonText = this.add.text(1340, 680, "Button", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: tetriaryColor
         }).setDepth(1);
 
-        this.blockStickText = this.add.text(970, 495, "STICK", {
-            font: "32px Impact",
+        this.blockStickText = this.add.text(1235, 680, "Stick", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
@@ -318,20 +323,20 @@ class mixupScene extends Phaser.Scene {
         this.blockButtonText.on("pointerdown", (pointer) => {
             if (!this.blockButton) {
                 this.blockButton = true;
-                this.blockButtonText.setStroke(primaryColor, 4);
-                this.blockStickText.setStroke(tetriaryColor, 4);
+                this.blockButtonText.setStroke(primaryColor, 6);
+                this.blockStickText.setStroke(tetriaryColor, 6);
             }
         });
 
         this.blockButtonText.on("pointerover", (pointer) => {
             if (!this.blockButton) {
-                this.blockButtonText.setStroke(tetriaryColor, 5);
+                this.blockButtonText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.blockButtonText.on("pointerout", (pointer) => {
             if (!this.blockButton) {
-                this.blockButtonText.setStroke(tetriaryColor, 4);
+                this.blockButtonText.setStroke(tetriaryColor, 6);
             }
         });
 
@@ -340,45 +345,45 @@ class mixupScene extends Phaser.Scene {
         this.blockStickText.on("pointerdown", (pointer) => {
             if (this.blockButton) {
                 this.blockButton = false;
-                this.blockButtonText.setStroke(tetriaryColor, 4);
-                this.blockStickText.setStroke(primaryColor, 4);
+                this.blockButtonText.setStroke(tetriaryColor, 6);
+                this.blockStickText.setStroke(primaryColor, 6);
             }
         });
 
         this.blockStickText.on("pointerover", (pointer) => {
             if (this.blockButton) {
-                this.blockStickText.setStroke(tetriaryColor, 5);
+                this.blockStickText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.blockStickText.on("pointerout", (pointer) => {
             if (this.blockButton) {
-                this.blockStickText.setStroke(tetriaryColor, 4);
+                this.blockStickText.setStroke(tetriaryColor, 6);
             }
         });
 
         // Option Background
-        this.add.text(1065, 450, "Background: ", {
-            font: "32px Impact",
+        this.add.text(1020, 810, "Background: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.bgOnText = this.add.text(1242, 450, "ON", {
-            font: "32px Impact",
+        this.bgOnText = this.add.text(1260, 810, "On", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.bgOffText = this.add.text(1290, 450, "OFF", {
-            font: "32px Impact",
+        this.bgOffText = this.add.text(1320, 810, "Off", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: tetriaryColor
         }).setDepth(1);
 
@@ -387,21 +392,21 @@ class mixupScene extends Phaser.Scene {
         this.bgOnText.on("pointerdown", (pointer) => {
             if (!this.bgOn) {
                 this.bgOn = true;
-                this.bgOnText.setStroke(primaryColor, 4);
-                this.bgOffText.setStroke(tetriaryColor, 4);
+                this.bgOnText.setStroke(primaryColor, 6);
+                this.bgOffText.setStroke(tetriaryColor, 6);
                 this.bg.setAlpha(1);
             }
         });
 
         this.bgOnText.on("pointerover", (pointer) => {
             if (!this.bgOn) {
-                this.bgOnText.setStroke(tetriaryColor, 5);
+                this.bgOnText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.bgOnText.on("pointerout", (pointer) => {
             if (!this.bgOn) {
-                this.bgOnText.setStroke(tetriaryColor, 4);
+                this.bgOnText.setStroke(tetriaryColor, 6);
             }
         });
 
@@ -410,54 +415,156 @@ class mixupScene extends Phaser.Scene {
         this.bgOffText.on("pointerdown", (pointer) => {
             if (this.bgOn) {
                 this.bgOn = false;
-                this.bgOnText.setStroke(tetriaryColor, 4);
-                this.bgOffText.setStroke(primaryColor, 4);
+                this.bgOnText.setStroke(tetriaryColor, 6);
+                this.bgOffText.setStroke(primaryColor, 6);
                 this.bg.setAlpha(0);
             }
         });
 
         this.bgOffText.on("pointerover", (pointer) => {
             if (this.bgOn) {
-                this.bgOffText.setStroke(tetriaryColor, 5);
+                this.bgOffText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.bgOffText.on("pointerout", (pointer) => {
             if (this.bgOn) {
-                this.bgOffText.setStroke(tetriaryColor, 4);
+                this.bgOffText.setStroke(tetriaryColor, 6);
             }
         });
 
-        // Option High Startup
-        this.add.text(700, 540, "High Startup: ", {
-            font: "32px Impact",
+        // Option Mixup Type
+        this.add.text(1480, 615, "Mixup Type: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.highStartupText = this.add.text(962, 542, "18 frames", {
-            font: "28px Impact",
+        this.mixupTypeHLText = this.add.text(1725, 615, "HL", {
+            font: "44px " + defaultFont,
+            color: secondaryColor,
+            align: "right",
+            strokeThickness: 6,
+            stroke: primaryColor
+        }).setDepth(1).setOrigin(0.5, 0);
+
+        this.mixupTypeLRText = this.add.text(1755, 615, "LR", {
+            font: "44px " + defaultFont,
+            color: secondaryColor,
+            align: "right",
+            strokeThickness: 6,
+            stroke: tetriaryColor
+        }).setDepth(1);
+
+        this.mixupTypeSTText = this.add.text(1805, 615, "ST", {
+            font: "44px " + defaultFont,
+            color: secondaryColor,
+            align: "right",
+            strokeThickness: 6,
+            stroke: tetriaryColor
+        }).setDepth(1);
+
+        this.mixupTypeHLText.setInteractive({ useHandCursor: true });
+
+        this.mixupTypeHLText.on("pointerdown", (pointer) => {
+            if (this.mixupType != "HL") {
+                this.mixupType = "HL";
+                this.mixupTypeHLText.setStroke(primaryColor, 6);
+                this.mixupTypeLRText.setStroke(tetriaryColor, 6);
+                this.mixupTypeSTText.setStroke(tetriaryColor, 6);
+            }
+        });
+
+        this.mixupTypeHLText.on("pointerover", (pointer) => {
+            if (this.mixupType != "HL") {
+                this.mixupTypeHLText.setStroke(tetriaryColor, 8);
+            }
+        });
+
+        this.mixupTypeHLText.on("pointerout", (pointer) => {
+            if (this.mixupType != "HL") {
+                this.mixupTypeHLText.setStroke(tetriaryColor, 6);
+            }
+        });
+
+        this.mixupTypeLRText.setInteractive({ useHandCursor: true });
+
+        this.mixupTypeLRText.on("pointerdown", (pointer) => {
+            if (this.mixupType != "LR") {
+                this.mixupType = "LR";
+                this.mixupTypeHLText.setStroke(tetriaryColor, 6);
+                this.mixupTypeLRText.setStroke(primaryColor, 6);
+                this.mixupTypeSTText.setStroke(tetriaryColor, 6);
+            }
+        });
+
+        this.mixupTypeLRText.on("pointerover", (pointer) => {
+            if (this.mixupType != "LR") {
+                this.mixupTypeLRText.setStroke(tetriaryColor, 8);
+            }
+        });
+
+        this.mixupTypeLRText.on("pointerout", (pointer) => {
+            if (this.mixupType != "LR") {
+                this.mixupTypeLRText.setStroke(tetriaryColor, 6);
+            }
+        });
+
+        this.mixupTypeSTText.setInteractive({ useHandCursor: true });
+
+        this.mixupTypeSTText.on("pointerdown", (pointer) => {
+            if (this.mixupType != "ST") {
+                this.mixupType = "ST";
+                this.mixupTypeHLText.setStroke(tetriaryColor, 6);
+                this.mixupTypeLRText.setStroke(tetriaryColor, 6);
+                this.mixupTypeSTText.setStroke(primaryColor, 6);
+            }
+        });
+
+        this.mixupTypeSTText.on("pointerover", (pointer) => {
+            if (this.mixupType != "ST") {
+                this.mixupTypeSTText.setStroke(tetriaryColor, 8);
+            }
+        });
+
+        this.mixupTypeSTText.on("pointerout", (pointer) => {
+            if (this.mixupType != "ST") {
+                this.mixupTypeSTText.setStroke(tetriaryColor, 6);
+            }
+        });
+        
+        // Option High Startup
+        this.add.text(1480, 745, "High Startup: ", {
+            font: "44px " + defaultFont,
+            color: secondaryColor,
+            align: "right",
+            strokeThickness: 6,
+            stroke: primaryColor
+        }).setDepth(1);
+
+        this.highStartupText = this.add.text(1810, 756, "18 frames", {
+            font: "28px " + defaultFont,
             color: secondaryColor,
             align: "right",
             strokeThickness: 4,
             stroke: primaryColor
         }).setDepth(1).setOrigin(0.5, 0);
 
-        this.highStartupDecreaseText = this.add.text(880, 528, "-", {
-            font: "48px Impact",
+        this.highStartupDecreaseText = this.add.text(1725, 746, "-", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 5,
             stroke: tetriaryColor
         }).setDepth(1);
 
-        this.highStartupIncreaseText = this.add.text(1025, 530, "+", {
-            font: "48px Impact",
+        this.highStartupIncreaseText = this.add.text(1875, 746, "+", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 5,
             stroke: tetriaryColor
         }).setDepth(1);
 
@@ -468,7 +575,7 @@ class mixupScene extends Phaser.Scene {
                 this.highStartup--;
                 this.highStartupText.text = this.highStartup + " frames";
                 if (this.highStartup == 3) {
-                    this.highStartupDecreaseText.setStroke(primaryColor, 4);
+                    this.highStartupDecreaseText.setStroke(primaryColor, 5);
                 }
                 this.ryuHigh.frameRate = (this.ryuHigh.getTotalFrames() * 0.5) * (60 / this.highStartup);
             }
@@ -476,13 +583,13 @@ class mixupScene extends Phaser.Scene {
 
         this.highStartupDecreaseText.on("pointerover", (pointer) => {
             if (this.highStartup > 3) {
-                this.highStartupDecreaseText.setStroke(tetriaryColor, 5);
+                this.highStartupDecreaseText.setStroke(tetriaryColor, 7);
             }
         });
 
         this.highStartupDecreaseText.on("pointerout", (pointer) => {
             if (this.highStartup > 3) {
-                this.highStartupDecreaseText.setStroke(tetriaryColor, 4);
+                this.highStartupDecreaseText.setStroke(tetriaryColor, 5);
             }
         });
 
@@ -491,48 +598,48 @@ class mixupScene extends Phaser.Scene {
         this.highStartupIncreaseText.on("pointerdown", (pointer) => {
             this.highStartup++;
             this.highStartupText.text = this.highStartup + " frames";
-            this.highStartupDecreaseText.setStroke(tetriaryColor, 4);
+            this.highStartupDecreaseText.setStroke(tetriaryColor, 5);
             this.ryuHigh.frameRate = (this.ryuHigh.getTotalFrames() * 0.5) * (60 / this.highStartup);
         });
 
         this.highStartupIncreaseText.on("pointerover", (pointer) => {
-            this.highStartupIncreaseText.setStroke(tetriaryColor, 5);
+            this.highStartupIncreaseText.setStroke(tetriaryColor, 7);
         });
 
         this.highStartupIncreaseText.on("pointerout", (pointer) => {
-            this.highStartupIncreaseText.setStroke(tetriaryColor, 4);
+            this.highStartupIncreaseText.setStroke(tetriaryColor, 5);
         });
 
         // Option Low Startup
-        this.add.text(700, 585, "Low Startup: ", {
-            font: "32px Impact",
+        this.add.text(1480, 810, "Low Startup: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.lowStartupText = this.add.text(952, 587, "12 frames", {
-            font: "28px Impact",
+        this.lowStartupText = this.add.text(1810, 821, "12 frames", {
+            font: "28px " + defaultFont,
             color: secondaryColor,
             align: "right",
             strokeThickness: 4,
             stroke: primaryColor
         }).setDepth(1).setOrigin(0.5, 0);
 
-        this.lowStartupDecreaseText = this.add.text(870, 573, "-", {
-            font: "48px Impact",
+        this.lowStartupDecreaseText = this.add.text(1725, 811, "-", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 5,
             stroke: tetriaryColor
         }).setDepth(1);
 
-        this.lowStartupIncreaseText = this.add.text(1015, 575, "+", {
-            font: "48px Impact",
+        this.lowStartupIncreaseText = this.add.text(1875, 811, "+", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 5,
             stroke: tetriaryColor
         }).setDepth(1);
 
@@ -543,7 +650,7 @@ class mixupScene extends Phaser.Scene {
                 this.lowStartup--;
                 this.lowStartupText.text = this.lowStartup + " frames";
                 if (this.lowStartup == 3) {
-                    this.lowStartupDecreaseText.setStroke(primaryColor, 4);
+                    this.lowStartupDecreaseText.setStroke(primaryColor, 5);
                 }
                 this.ryuLow.frameRate = (this.ryuLow.getTotalFrames() * 0.5) * (60 / this.lowStartup);
             }
@@ -551,13 +658,13 @@ class mixupScene extends Phaser.Scene {
 
         this.lowStartupDecreaseText.on("pointerover", (pointer) => {
             if (this.lowStartup > 3) {
-                this.lowStartupDecreaseText.setStroke(tetriaryColor, 5);
+                this.lowStartupDecreaseText.setStroke(tetriaryColor, 7);
             }
         });
 
         this.lowStartupDecreaseText.on("pointerout", (pointer) => {
             if (this.lowStartup > 3) {
-                this.lowStartupDecreaseText.setStroke(tetriaryColor, 4);
+                this.lowStartupDecreaseText.setStroke(tetriaryColor, 5);
             }
         });
 
@@ -566,48 +673,48 @@ class mixupScene extends Phaser.Scene {
         this.lowStartupIncreaseText.on("pointerdown", (pointer) => {
             this.lowStartup++;
             this.lowStartupText.text = this.lowStartup + " frames";
-            this.lowStartupDecreaseText.setStroke(tetriaryColor, 4);
+            this.lowStartupDecreaseText.setStroke(tetriaryColor, 5);
             this.ryuLow.frameRate = (this.ryuLow.getTotalFrames() * 0.5) * (60 / this.lowStartup);
         });
 
         this.lowStartupIncreaseText.on("pointerover", (pointer) => {
-            this.lowStartupIncreaseText.setStroke(tetriaryColor, 5);
+            this.lowStartupIncreaseText.setStroke(tetriaryColor, 7);
         });
 
         this.lowStartupIncreaseText.on("pointerout", (pointer) => {
-            this.lowStartupIncreaseText.setStroke(tetriaryColor, 4);
+            this.lowStartupIncreaseText.setStroke(tetriaryColor, 5);
         });
 
         // Option Interval
-        this.add.text(700, 630, "Interval: ", {
-            font: "32px Impact",
+        this.add.text(1020, 875, "Interval: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.intervalText = this.add.text(918, 632, "1.5 seconds", {
-            font: "28px Impact",
+        this.intervalText = this.add.text(1290, 886, "1.5 seconds", {
+            font: "28px " + defaultFont,
             color: secondaryColor,
             align: "right",
             strokeThickness: 4,
             stroke: primaryColor
         }).setDepth(1).setOrigin(0.5, 0);
 
-        this.intervalDecreaseText = this.add.text(820, 618, "-", {
-            font: "48px Impact",
+        this.intervalDecreaseText = this.add.text(1193, 876, "-", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 5,
             stroke: tetriaryColor
         }).setDepth(1);
 
-        this.intervalIncreaseText = this.add.text(1000, 620, "+", {
-            font: "48px Impact",
+        this.intervalIncreaseText = this.add.text(1365, 876, "+", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 5,
             stroke: tetriaryColor
         }).setDepth(1);
 
@@ -618,20 +725,20 @@ class mixupScene extends Phaser.Scene {
                 this.interval -= 0.1;
                 this.intervalText.text = Number(this.interval).toFixed(1) + " seconds";
                 if (this.interval < 0.2) {
-                    this.intervalDecreaseText.setStroke(primaryColor, 4);
+                    this.intervalDecreaseText.setStroke(primaryColor, 5);
                 }
             }
         });
 
         this.intervalDecreaseText.on("pointerover", (pointer) => {
             if (this.interval > 0.2) {
-                this.intervalDecreaseText.setStroke(tetriaryColor, 5);
+                this.intervalDecreaseText.setStroke(tetriaryColor, 7);
             }
         });
 
         this.intervalDecreaseText.on("pointerout", (pointer) => {
             if (this.interval > 0.2) {
-                this.intervalDecreaseText.setStroke(tetriaryColor, 4);
+                this.intervalDecreaseText.setStroke(tetriaryColor, 5);
             }
         });
 
@@ -640,212 +747,277 @@ class mixupScene extends Phaser.Scene {
         this.intervalIncreaseText.on("pointerdown", (pointer) => {
             this.interval += 0.1;
             this.intervalText.text = Number(this.interval).toFixed(1) + " seconds";
-            this.intervalDecreaseText.setStroke(tetriaryColor, 4);
+            this.intervalDecreaseText.setStroke(tetriaryColor, 5);
         });
 
         this.intervalIncreaseText.on("pointerover", (pointer) => {
-            this.intervalIncreaseText.setStroke(tetriaryColor, 5);
+            this.intervalIncreaseText.setStroke(tetriaryColor, 7);
         });
 
         this.intervalIncreaseText.on("pointerout", (pointer) => {
-            this.intervalIncreaseText.setStroke(tetriaryColor, 4);
+            this.intervalIncreaseText.setStroke(tetriaryColor, 5);
         });
 
         // Option Rep Length
-        this.add.text(700, 675, "Rep Length: ", {
-            font: "32px Impact",
+        this.add.text(1020, 940, "Rep Length: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.repInfText = this.add.text(860, 675, "Infinite", {
-            font: "32px Impact",
+        this.repInfText = this.add.text(1240, 940, "Infinite", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: tetriaryColor
         }).setDepth(1);
 
-        this.repFiveText = this.add.text(965, 675, "5", {
-            font: "32px Impact",
+        this.repFiveText = this.add.text(1385, 940, "5", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.repOneText = this.add.text(995, 675, "1", {
-            font: "32px Impact",
+        this.repOneText = this.add.text(1420, 940, "1", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: tetriaryColor
         }).setDepth(1);
 
         this.repInfText.setInteractive({ useHandCursor: true });
 
         this.repInfText.on("pointerdown", (pointer) => {
-            this.repInfText.setStroke(primaryColor, 4);
-            this.repFiveText.setStroke(tetriaryColor, 4);
-            this.repOneText.setStroke(tetriaryColor, 4);
+            this.repInfText.setStroke(primaryColor, 6);
+            this.repFiveText.setStroke(tetriaryColor, 6);
+            this.repOneText.setStroke(tetriaryColor, 6);
             this.rep = -1;
         });
 
         this.repInfText.on("pointerover", (pointer) => {
             if (this.rep != -1) {
-                this.repInfText.setStroke(tetriaryColor, 5);
+                this.repInfText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.repInfText.on("pointerout", (pointer) => {
             if (this.rep != -1) {
-                this.repInfText.setStroke(tetriaryColor, 4);
+                this.repInfText.setStroke(tetriaryColor, 6);
             }
         });
 
         this.repFiveText.setInteractive({ useHandCursor: true });
 
         this.repFiveText.on("pointerdown", (pointer) => {
-            this.repInfText.setStroke(tetriaryColor, 4);
-            this.repFiveText.setStroke(primaryColor, 4);
-            this.repOneText.setStroke(tetriaryColor, 4);
+            this.repInfText.setStroke(tetriaryColor, 6);
+            this.repFiveText.setStroke(primaryColor, 6);
+            this.repOneText.setStroke(tetriaryColor, 6);
             this.rep = 5;
         });
 
         this.repFiveText.on("pointerover", (pointer) => {
             if (this.rep != 5) {
-                this.repFiveText.setStroke(tetriaryColor, 5);
+                this.repFiveText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.repFiveText.on("pointerout", (pointer) => {
             if (this.rep != 5) {
-                this.repFiveText.setStroke(tetriaryColor, 4);
+                this.repFiveText.setStroke(tetriaryColor, 6);
             }
         });
 
         this.repOneText.setInteractive({ useHandCursor: true });
 
         this.repOneText.on("pointerdown", (pointer) => {
-            this.repInfText.setStroke(tetriaryColor, 4);
-            this.repFiveText.setStroke(tetriaryColor, 4);
-            this.repOneText.setStroke(primaryColor, 4);
+            this.repInfText.setStroke(tetriaryColor, 6);
+            this.repFiveText.setStroke(tetriaryColor, 6);
+            this.repOneText.setStroke(primaryColor, 6);
             this.rep = 1;
         });
 
         this.repOneText.on("pointerover", (pointer) => {
             if (this.rep != 1) {
-                this.repOneText.setStroke(tetriaryColor, 5);
+                this.repOneText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.repOneText.on("pointerout", (pointer) => {
             if (this.rep != 1) {
-                this.repOneText.setStroke(tetriaryColor, 4);
+                this.repOneText.setStroke(tetriaryColor, 6);
+            }
+        });
+
+        // Option Reset
+        this.add.text(1020, 1005, "Reset Average: ", {
+            font: "44px " + defaultFont,
+            color: secondaryColor,
+            align: "right",
+            strokeThickness: 6,
+            stroke: primaryColor
+        }).setDepth(1);
+
+        this.resetOnText = this.add.text(1300, 1005, "On", {
+            font: "44px " + defaultFont,
+            color: secondaryColor,
+            align: "right",
+            strokeThickness: 6,
+            stroke: primaryColor
+        }).setDepth(1);
+
+        this.resetOffText = this.add.text(1360, 1005, "Off", {
+            font: "44px " + defaultFont,
+            color: secondaryColor,
+            align: "right",
+            strokeThickness: 6,
+            stroke: tetriaryColor
+        }).setDepth(1);
+
+        this.resetOnText.setInteractive({ useHandCursor: true });
+
+        this.resetOnText.on("pointerdown", (pointer) => {
+            this.resetOnText.setStroke(primaryColor, 6);
+            this.resetOffText.setStroke(tetriaryColor, 6);
+            this.reset = true;
+        });
+
+        this.resetOnText.on("pointerover", (pointer) => {
+            if (!this.reset) {
+                this.resetOnText.setStroke(tetriaryColor, 8);
+            }
+        });
+
+        this.resetOnText.on("pointerout", (pointer) => {
+            if (!this.reset) {
+                this.resetOnText.setStroke(tetriaryColor, 6);
+            }
+        });
+
+        this.resetOffText.setInteractive({ useHandCursor: true });
+
+        this.resetOffText.on("pointerdown", (pointer) => {
+            this.resetOnText.setStroke(tetriaryColor, 6);
+            this.resetOffText.setStroke(primaryColor, 6);
+            this.reset = false;
+        });
+
+        this.resetOffText.on("pointerover", (pointer) => {
+            if (this.reset) {
+                this.resetOffText.setStroke(tetriaryColor, 8);
+            }
+        });
+
+        this.resetOffText.on("pointerout", (pointer) => {
+            if (this.reset) {
+                this.resetOffText.setStroke(tetriaryColor, 6);
             }
         });
 
         // Option Track
-        this.add.text(700, 720, "Track: ", {
-            font: "32px Impact",
+        this.add.text(1480, 680, "Track: ", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.trackBothText = this.add.text(790, 720, "Both", {
-            font: "32px Impact",
+        this.trackBothText = this.add.text(1600, 680, "Both", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: tetriaryColor
         }).setDepth(1);
 
-        this.trackHighText = this.add.text(865, 720, "Highs", {
-            font: "32px Impact",
+        this.trackHighText = this.add.text(1695, 680, "High", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: primaryColor
         }).setDepth(1);
 
-        this.trackLowText = this.add.text(955, 720, "Lows", {
-            font: "32px Impact",
+        this.trackLowText = this.add.text(1790, 680, "Low", {
+            font: "44px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 6,
             stroke: tetriaryColor
         }).setDepth(1);
 
         this.trackBothText.setInteractive({ useHandCursor: true });
 
         this.trackBothText.on("pointerdown", (pointer) => {
-            this.trackBothText.setStroke(primaryColor, 4);
-            this.trackHighText.setStroke(tetriaryColor, 4);
-            this.trackLowText.setStroke(tetriaryColor, 4);
+            this.trackBothText.setStroke(primaryColor, 6);
+            this.trackHighText.setStroke(tetriaryColor, 6);
+            this.trackLowText.setStroke(tetriaryColor, 6);
             this.track = "both";
         });
 
         this.trackBothText.on("pointerover", (pointer) => {
             if (this.track != "both") {
-                this.trackBothText.setStroke(tetriaryColor, 5);
+                this.trackBothText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.trackBothText.on("pointerout", (pointer) => {
             if (this.track != "both") {
-                this.trackBothText.setStroke(tetriaryColor, 4);
+                this.trackBothText.setStroke(tetriaryColor, 6);
             }
         });
 
         this.trackHighText.setInteractive({ useHandCursor: true });
 
         this.trackHighText.on("pointerdown", (pointer) => {
-            this.trackBothText.setStroke(tetriaryColor, 4);
-            this.trackHighText.setStroke(primaryColor, 4);
-            this.trackLowText.setStroke(tetriaryColor, 4);
+            this.trackBothText.setStroke(tetriaryColor, 6);
+            this.trackHighText.setStroke(primaryColor, 6);
+            this.trackLowText.setStroke(tetriaryColor, 6);
             this.track = "high";
         });
 
         this.trackHighText.on("pointerover", (pointer) => {
             if (this.track != "high") {
-                this.trackHighText.setStroke(tetriaryColor, 5);
+                this.trackHighText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.trackHighText.on("pointerout", (pointer) => {
             if (this.track != "high") {
-                this.trackHighText.setStroke(tetriaryColor, 4);
+                this.trackHighText.setStroke(tetriaryColor, 6);
             }
         });
 
         this.trackLowText.setInteractive({ useHandCursor: true });
 
         this.trackLowText.on("pointerdown", (pointer) => {
-            this.trackBothText.setStroke(tetriaryColor, 4);
-            this.trackHighText.setStroke(tetriaryColor, 4);
-            this.trackLowText.setStroke(primaryColor, 4);
+            this.trackBothText.setStroke(tetriaryColor, 6);
+            this.trackHighText.setStroke(tetriaryColor, 6);
+            this.trackLowText.setStroke(primaryColor, 6);
             this.track = "low";
         });
 
         this.trackLowText.on("pointerover", (pointer) => {
             if (this.track != "low") {
-                this.trackLowText.setStroke(tetriaryColor, 5);
+                this.trackLowText.setStroke(tetriaryColor, 8);
             }
         });
 
         this.trackLowText.on("pointerout", (pointer) => {
             if (this.track != "low") {
-                this.trackLowText.setStroke(tetriaryColor, 4);
+                this.trackLowText.setStroke(tetriaryColor, 6);
             }
         });
 
-        this.bg = this.add.image(25, 120, "bg-3rd").setScale(2).setOrigin(0, 0);
-        this.ken = this.add.sprite(150, 550, "").setScale(2.5).setOrigin(0.5, 1);
-        this.ryu = this.add.sprite(350, 550, "").setScale(2.5).setOrigin(0.5, 1);
+        this.bg = this.add.image(25, 135, "bg-3rd").setScale(3).setOrigin(0, 0);
+        this.ken = this.add.sprite(185, 775, "").setScale(3.5).setOrigin(0.5, 1);
+        this.ryu = this.add.sprite(475, 775, "").setScale(3.5).setOrigin(0.5, 1);
         this.ryu.flipX = true
 
         // Ken Animations
@@ -960,10 +1132,10 @@ class mixupScene extends Phaser.Scene {
         this.ken.play("KenStanding");
         this.ryu.play("RyuStanding");
 
-        this.fgLayout = this.add.sprite(1175, 225, "fightStickLayout").setScale(0.85);
-        this.fgBall = this.add.sprite(1175, 225, "fightStickBall").setScale(0.85);
-        this.fgButtonBack = this.add.sprite(975, 175, "fightStickButton");
-        this.fgButton = this.add.sprite(975, 175, "fightStickBall");
+        this.fgLayout = this.add.sprite(1675, 310, "fightStickLayout").setScale(1.35);
+        this.fgBall = this.add.sprite(1675, 310, "fightStickBall").setScale(1.35);
+        this.fgButtonBack = this.add.sprite(1375, 400, "fightStickButton").setScale(1.5);
+        this.fgButton = this.add.sprite(1375, 400, "fightStickBall").setScale(1.5);
 
         // Touch
         this.fgBall.setInteractive();
@@ -1044,8 +1216,8 @@ class mixupScene extends Phaser.Scene {
             }
         }
 
-        this.fgBall.setX(1175 + this.inputHor * 60);
-        this.fgBall.setY(225 + this.inputVer * 60);
+        this.fgBall.setX(1675 + this.inputHor * 90);
+        this.fgBall.setY(310 + this.inputVer * 90);
 
         // Touch
         if (this.touchBall) {
@@ -1055,29 +1227,29 @@ class mixupScene extends Phaser.Scene {
                 this.fgBall.setPosition(this.input.pointer1.x, this.input.pointer1.y);
             }
             
-            if (this.fgBall.x > 1175 + 60) {
-                this.fgBall.setX(1175 + 60);
+            if (this.fgBall.x > 1675 + 90) {
+                this.fgBall.setX(1675 + 90);
             }
-            if (this.fgBall.x < 1175 - 60) {
-                this.fgBall.setX(1175 - 60);
+            if (this.fgBall.x < 1675 - 90) {
+                this.fgBall.setX(1675 - 90);
             }
-            if (this.fgBall.y > 225 + 60) {
-                this.fgBall.setY(225 + 60);
+            if (this.fgBall.y > 310 + 90) {
+                this.fgBall.setY(310 + 90);
             }
-            if (this.fgBall.y < 225 - 60) {
-                this.fgBall.setY(225 - 60);
+            if (this.fgBall.y < 310 - 90) {
+                this.fgBall.setY(310 - 90);
             }
 
-            if (this.fgBall.x > 1175 + 20) {
+            if (this.fgBall.x > 1675 + 20) {
                 this.inputHor = 1;
             }
-            if (this.fgBall.x < 1175 - 20) {
+            if (this.fgBall.x < 1675 - 20) {
                 this.inputHor = -1;
             }
-            if (this.fgBall.y > 225 + 20) {
+            if (this.fgBall.y > 310 + 20) {
                 this.inputVer = 1;
             }
-            if (this.fgBall.y < 225 - 20) {
+            if (this.fgBall.y < 310 - 20) {
                 this.inputVer = -1;
             }
         }
@@ -1389,11 +1561,11 @@ class mixupScene extends Phaser.Scene {
             this.results = [];
         }
 
-        let resultText = this.add.text(395, 575 + this.curCount * 35, result, {
-            font: "26px Impact",
+        let resultText = this.add.text(550, 815 + this.curCount * 50, result, {
+            font: "42px " + defaultFont,
             color: secondaryColor,
             align: "right",
-            strokeThickness: 4,
+            strokeThickness: 5,
             stroke: primaryColor
         });
 
